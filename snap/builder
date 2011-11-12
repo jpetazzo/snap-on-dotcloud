@@ -1,0 +1,27 @@
+#!/bin/bash
+cd
+if which snap >/dev/null
+then
+    echo "Found snap. Skipping installation."
+else
+    echo "Installing snap."
+    cabal update
+    cabal install snap==0.5.0
+    export PATH=$HOME/.cabal/bin:$PATH
+    echo "Installing helloworld app."
+    mkdir helloworld
+    cd helloworld
+    snap init
+    cabal install
+    cd ..
+    echo "Installing dotCloud scaffolding."
+    cat >run <<EOF
+#!/bin/bash
+cd \$HOME/helloworld
+exec helloworld -p \$PORT_WWW
+EOF
+    chmod +x run
+fi
+cat >profile <<EOF
+export PATH=\$HOME/.cabal/bin:\$PATH
+EOF

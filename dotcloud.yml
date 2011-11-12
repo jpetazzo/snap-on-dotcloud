@@ -1,0 +1,9 @@
+haskell:
+    type: custom
+    buildscript: snap/builder
+    ports:
+        www: http
+    systempackages:
+      - cabal-install
+      - happy
+      - ghc
